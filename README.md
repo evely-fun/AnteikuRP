@@ -93,7 +93,12 @@ add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub secrets and
 let `.github/workflows/deploy-cloudflare.yml` do it on push to `main`.
 
 `site/_headers` sets long lived caching for `assets/` and the usual security
-headers. Both Cloudflare Pages and Render read that file.
+headers. Cloudflare Pages reads that file directly. **Render does not** - it
+uses its own blueprint format, so the same rules are mirrored in
+`render.yaml`, and they only take effect once that blueprint is synced from
+the Render dashboard. Until then Render serves its default
+`max-age=0, s-maxage=300`, which is correct but not optimal for the immutable
+image and font files.
 
 ## Third party code
 
