@@ -1,0 +1,6 @@
+# Cloudflare Pages deployment.
+# Requires CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in the environment.
+#   npx wrangler pages deploy site --project-name anteiku-rp
+name = "anteiku-rp"
+compatibility_date = "2026-09-17"
+pages_build_output_dir = "site"

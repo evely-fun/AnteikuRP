@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="meta.title">ANTEIKU RP - ролевой Minecraft сервер без лаунчера</title>
+<meta name="description" data-i18n="meta.description" content="Ролевой Minecraft проект с войнами за территорию, голосовым чатом и 17 режимами. Лаунчер не нужен, заходи по IP с обычного клиента.">
+<meta name="theme-color" content="#06070A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ANTEIKU RP">
+<meta property="og:description" content="Ролевой Minecraft проект без лаунчера. Войны за территорию, голосовой чат, 17 режимов.">
+<meta property="og:image" content="assets/img/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-600-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/oswald-600-cyrillic.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-400-cyrillic.woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="preload" as="image" href="assets/img/hero-city.webp" imagesrcset="assets/img/hero-city-sm.webp 1100w, assets/img/hero-city.webp 2200w" imagesizes="100vw">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-user" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.4 0-8 2.2-8 5v3h16v-3c0-2.8-3.6-5-8-5Z"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v13h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 6h-2.9a15.6 15.6 0 0 0-1.4-3.7A8 8 0 0 1 18.9 8ZM12 4c.8 1.1 1.4 2.5 1.8 4h-3.6c.4-1.5 1-2.9 1.8-4ZM4.3 14a8 8 0 0 1 0-4h3.3a17 17 0 0 0 0 4H4.3Zm.8 2H8a15.6 15.6 0 0 0 1.4 3.7A8 8 0 0 1 5.1 16Zm2.9-8H5.1a8 8 0 0 1 4.3-3.7A15.6 15.6 0 0 0 8 8Zm4 12c-.8-1.1-1.4-2.5-1.8-4h3.6c-.4 1.5-1 2.9-1.8 4Zm2.2-6H9.8a15 15 0 0 1 0-4h4.4a15 15 0 0 1 0 4Zm.4 5.7a15.6 15.6 0 0 0 1.4-3.7h2.9a8 8 0 0 1-4.3 3.7ZM16.4 14a17 17 0 0 0 0-4h3.3a8 8 0 0 1 0 4h-3.3Z"/></symbol>
+<symbol id="i-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M19.3 5.3A16.9 16.9 0 0 0 15.1 4l-.3.5a12.8 12.8 0 0 1 3.7 1.9A13 13 0 0 0 12 5a13 13 0 0 0-6.5 1.4 12.8 12.8 0 0 1 3.7-1.9L8.9 4a16.9 16.9 0 0 0-4.2 1.3C2.1 9.2 1.4 13 1.8 16.7A17 17 0 0 0 7 19.3l1-1.6a11 11 0 0 1-1.8-.9l.4-.3a12.1 12.1 0 0 0 10.7 0l.4.3a11 11 0 0 1-1.8.9l1 1.6a17 17 0 0 0 5.2-2.6c.5-4.3-.6-8.1-2.8-11.4ZM8.7 14.5c-1 0-1.9-.9-1.9-2.1 0-1.2.8-2.1 1.9-2.1s1.9 1 1.9 2.1c0 1.2-.8 2.1-1.9 2.1Zm6.6 0c-1 0-1.9-.9-1.9-2.1 0-1.2.8-2.1 1.9-2.1s1.9 1 1.9 2.1c0 1.2-.8 2.1-1.9 2.1Z"/></symbol>
+<symbol id="i-telegram" viewBox="0 0 24 24"><path fill="currentColor" d="M21.9 4.3 18.7 19c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.3 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.3-.1-.5-.6-.2L6.4 12.7 1.6 11.2c-1-.3-1-1 .2-1.5L20.6 2.5c.9-.3 1.6.2 1.3 1.8Z"/></symbol>
+<symbol id="i-youtube" viewBox="0 0 24 24"><path fill="currentColor" d="M23 12s0-3.8-.5-5.6a2.9 2.9 0 0 0-2-2C18.7 4 12 4 12 4s-6.7 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8.2 1 12 1 12s0 3.8.5 5.6a2.9 2.9 0 0 0 2 2C5.3 20 12 20 12 20s6.7 0 8.5-.4a2.9 2.9 0 0 0 2-2C23 15.8 23 12 23 12ZM9.8 15.4V8.6l6 3.4-6 3.4Z"/></symbol>
+<symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" d="M16.1 2h-3.3v13.5a2.6 2.6 0 1 1-2-2.5V9.6a6.1 6.1 0 1 0 5.3 6V9.2a7.3 7.3 0 0 0 4.2 1.3V7.2a4.2 4.2 0 0 1-4.2-4.2V2Z"/></symbol>
+<symbol id="i-vk" viewBox="0 0 24 24"><path fill="currentColor" d="M12.8 17c-5.3 0-8.7-3.8-8.8-9.9h2.9c.1 4.6 2.2 6.5 3.8 6.9V7.1h2.7v4.1c1.5-.2 3.1-1.9 3.6-4.1h2.7a7.2 7.2 0 0 1-3.3 4.7 7.5 7.5 0 0 1 3.9 4.9h-3c-.5-1.7-1.9-3-3.9-3.2V17h-.6Z"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path fill="currentColor" d="M7.4 8.6 12 13.2l4.6-4.6L18 10l-6 6-6-6 1.4-1.4Z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path fill="currentColor" d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z"/></symbol>
+</defs></svg>
+
+<div id="preloader" class="preloader">
+  <div class="preloader-inner">
+    <div class="preloader-mark">ANTEIKU</div>
+    <div class="preloader-bar"><span id="preloaderFill"></span></div>
+  </div>
+</div>
+
+<header class="header" id="header">
+  <a class="brand" href="#top" aria-label="ANTEIKU RP">
+    <span class="brand-mark">A</span>
+    <span class="brand-name">ANTEIKU<em>RP</em></span>
+  </a>
+
+  <div class="header-mid">
+    <span class="online-chip"><span class="online-dot"></span><b id="onlineCount">—</b> <span data-i18n="nav.online">онлайн</span></span>
+    <a class="header-link" data-link="support" data-i18n="nav.support" href="#">Поддержка</a>
+    <a class="header-link" data-link="rules" data-i18n="nav.rules" href="#">Правила</a>
+    <a class="header-link" data-link="donate" data-i18n="nav.donate" href="#">Донат</a>
+  </div>
+
+  <div class="header-right">
+    <div class="social-row">
+      <a class="social" data-link="discord" href="#" aria-label="Discord"><svg><use href="#i-discord"/></svg></a>
+      <a class="social" data-link="telegram" href="#" aria-label="Telegram"><svg><use href="#i-telegram"/></svg></a>
+      <a class="social" data-link="youtube" href="#" aria-label="YouTube"><svg><use href="#i-youtube"/></svg></a>
+      <a class="social" data-link="tiktok" href="#" aria-label="TikTok"><svg><use href="#i-tiktok"/></svg></a>
+      <a class="social" data-link="vk" href="#" aria-label="VK"><svg><use href="#i-vk"/></svg></a>
+    </div>
+    <button class="lang-btn" id="langBtn" type="button"><svg><use href="#i-globe"/></svg><span id="langLabel">RU</span></button>
+    <button class="btn btn-primary btn-copy js-copy-ip" type="button">
+      <svg class="ic-copy"><use href="#i-copy"/></svg>
+      <svg class="ic-done"><use href="#i-check"/></svg>
+      <span data-i18n="nav.copyIp">Скопировать IP</span>
+    </button>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<nav class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="brand-name">ANTEIKU<em>RP</em></span>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Закрыть">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <span class="online-chip"><span class="online-dot"></span><b class="js-online">—</b> <span data-i18n="nav.online">онлайн</span></span>
+    <button class="btn btn-primary btn-block js-copy-ip" type="button">
+      <svg class="ic-copy"><use href="#i-copy"/></svg>
+      <svg class="ic-done"><use href="#i-check"/></svg>
+      <span data-i18n="nav.copyIp">Скопировать IP</span>
+    </button>
+    <a class="drawer-link" data-link="support" data-i18n="nav.support" href="#">Поддержка</a>
+    <a class="drawer-link" data-link="rules" data-i18n="nav.rules" href="#">Правила</a>
+    <a class="drawer-link" data-link="donate" data-i18n="nav.donate" href="#">Донат</a>
+    <div class="drawer-social">
+      <a class="social" data-link="discord" href="#" aria-label="Discord"><svg><use href="#i-discord"/></svg></a>
+      <a class="social" data-link="telegram" href="#" aria-label="Telegram"><svg><use href="#i-telegram"/></svg></a>
+      <a class="social" data-link="youtube" href="#" aria-label="YouTube"><svg><use href="#i-youtube"/></svg></a>
+      <a class="social" data-link="tiktok" href="#" aria-label="TikTok"><svg><use href="#i-tiktok"/></svg></a>
+      <a class="social" data-link="vk" href="#" aria-label="VK"><svg><use href="#i-vk"/></svg></a>
+    </div>
+    <div class="drawer-lang">
+      <button type="button" data-lang="ru">Русский</button>
+      <button type="button" data-lang="en">English</button>
+    </div>
+  </div>
+</nav>
+<div class="drawer-scrim" id="drawerScrim"></div>
+
+<main id="top">
+
+<section class="hero" id="hero">
+  <div class="hero-stage">
+    <img class="hero-bg" id="heroBg" src="assets/img/hero-city.webp"
+         srcset="assets/img/hero-city-sm.webp 1100w, assets/img/hero-city.webp 2200w" sizes="100vw" alt="" fetchpriority="high">
+    <div class="hero-grade"></div>
+    <canvas class="embers" id="heroEmbers" aria-hidden="true"></canvas>
+    <img class="hero-char hero-char-l" src="assets/img/char-police.webp" alt="" loading="eager">
+    <img class="hero-char hero-char-r" src="assets/img/char-criminal.webp" alt="" loading="eager">
+    <img class="hero-char hero-char-c" src="assets/img/char-soldier.webp" alt="" loading="eager">
+
+    <div class="hero-copy">
+      <p class="eyebrow reveal" data-i18n="hero.eyebrow">Ролевой Minecraft проект</p>
+      <h1 class="hero-title">
+        <span class="hero-title-main" data-i18n="hero.title">ANTEIKU</span>
+        <span class="hero-title-sub" data-i18n="hero.subtitle">ROLEPLAY</span>
+      </h1>
+      <p class="hero-tagline reveal" data-i18n-html="hero.tagline">Город, где у каждого решения есть последствия.<br>Выбирай сторону, строй репутацию, забирай территорию.</p>
+      <div class="hero-actions reveal">
+        <button class="btn btn-primary btn-lg js-copy-ip" type="button">
+          <svg class="ic-copy"><use href="#i-copy"/></svg>
+          <svg class="ic-done"><use href="#i-check"/></svg>
+          <span data-i18n="hero.cta">Начать играть</span>
+        </button>
+        <span class="hero-ip js-ip-plate" role="button" tabindex="0">
+          <b class="js-ip">play.anteiku.fun</b>
+          <i data-i18n="hero.ctaHint">нажми и IP скопируется</i>
+        </span>
+      </div>
+      <p class="hero-badge reveal"><svg><use href="#i-check"/></svg><span data-i18n="hero.noLauncher">Без лаунчера и без лицензии</span></p>
+    </div>
+
+    <button class="scroll-cue" id="scrollCue" type="button">
+      <span data-i18n="hero.scroll">листай</span>
+      <svg><use href="#i-chevron"/></svg>
+    </button>
+
+    <div class="hero-ticker">
+      <div class="hero-ticker-track" id="tickerTrack"></div>
+    </div>
+  </div>
+</section>
+
+<section class="claim" id="claim">
+  <div class="shell">
+    <p class="eyebrow reveal" data-i18n="claim.eyebrow">Что это такое</p>
+    <h2 class="claim-title split" data-i18n-html="claim.title">Единственный крупный RP,<br>которому не нужен лаунчер</h2>
+    <p class="claim-body reveal" data-i18n="claim.body">Конкуренты заставляют скачивать свой клиент и отключать антивирус. Мы нет. Открываешь обычный Minecraft, вставляешь IP и через десять секунд ты уже в городе. Голосовой чат, кастомный транспорт, экономика и войны за территорию работают на стандартном клиенте.</p>
+    <div class="pills reveal">
+      <span class="pill" data-i18n="claim.pill1">Java Edition</span>
+      <span class="pill" data-i18n="claim.pill2">Голосовой чат</span>
+      <span class="pill" data-i18n="claim.pill3">17 режимов</span>
+    </div>
+  </div>
+</section>
+
+<section class="roles" id="roles">
+  <div class="shell">
+    <p class="eyebrow reveal" data-i18n="roles.eyebrow">Профессии</p>
+    <h2 class="section-title split" data-i18n="roles.title">Кем ты станешь в городе</h2>
+    <div class="role-grid" id="roleGrid">
+      <article class="role-card" data-role="police"><img src="assets/img/role-police.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.police">Полицейским</h3><p data-i18n="roles.policeDesc">Патруль, погони, аресты и суд</p></div></article>
+      <article class="role-card" data-role="medic"><img src="assets/img/role-medic.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.medic">Медиком</h3><p data-i18n="roles.medicDesc">Вызовы, операции, спасённые жизни</p></div></article>
+      <article class="role-card" data-role="military"><img src="assets/img/role-military.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.military">Военным</h3><p data-i18n="roles.militaryDesc">Штурмы, техника, оборона границ</p></div></article>
+      <article class="role-card" data-role="business"><img src="assets/img/role-business.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.business">Бизнесменом</h3><p data-i18n="roles.businessDesc">Заводы, аренда, биржа и налоги</p></div></article>
+      <article class="role-card role-card-cta">
+        <div class="role-cta-inner">
+          <span class="role-kicker" data-i18n="roles.choose">Выбери</span>
+          <h3 data-i18n="roles.yourPath">свой путь</h3>
+          <button class="btn btn-primary js-copy-ip" type="button">
+            <svg class="ic-copy"><use href="#i-copy"/></svg>
+            <svg class="ic-done"><use href="#i-check"/></svg>
+            <span data-i18n="roles.cta">Начать играть</span>
+          </button>
+        </div>
+      </article>
+      <article class="role-card" data-role="mechanic"><img src="assets/img/role-mechanic.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.mechanic">Механиком</h3><p data-i18n="roles.mechanicDesc">Тюнинг, ремонт, эвакуатор</p></div></article>
+      <article class="role-card" data-role="criminal"><img src="assets/img/role-criminal.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.criminal">Бандитом</h3><p data-i18n="roles.criminalDesc">Картели, ограбления, чёрный рынок</p></div></article>
+      <article class="role-card" data-role="trucker"><img src="assets/img/role-trucker.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.trucker">Дальнобойщиком</h3><p data-i18n="roles.truckerDesc">Рейсы, контракты, контрабанда</p></div></article>
+      <article class="role-card" data-role="farmer"><img src="assets/img/role-farmer.webp" alt="" loading="lazy" decoding="async"><div class="role-body"><span class="role-kicker" data-i18n="roles.become">Стань</span><h3 data-i18n="roles.farmer">Фермером</h3><p data-i18n="roles.farmerDesc">Урожай, скот, поставки в город</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="war" id="war">
+  <div class="war-stage">
+    <div class="war-layer war-layer-wide"><img id="warWide" src="assets/img/war-wide.webp" srcset="assets/img/war-wide-sm.webp 1100w, assets/img/war-wide.webp 2200w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+    <div class="war-layer war-layer-close"><img id="warClose" src="assets/img/war-close.webp" srcset="assets/img/war-close-sm.webp 1100w, assets/img/war-close.webp 2200w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+    <div class="war-grade"></div>
+    <canvas class="embers" id="warEmbers" aria-hidden="true"></canvas>
+
+    <div class="war-copy">
+      <p class="eyebrow war-eyebrow" data-i18n="war.eyebrow">Главное событие недели</p>
+      <h2 class="war-title" data-i18n="war.title">ВОЙНА</h2>
+      <div class="war-beats">
+        <p class="war-beat" data-beat="1" data-i18n="war.beat1">Картели и государство делят карту каждую пятницу</p>
+        <p class="war-beat" data-beat="2" data-i18n="war.beat2">Двести игроков. Техника, артиллерия, захват точек</p>
+        <p class="war-beat" data-beat="3" data-i18n="war.beat3">Проигравшая сторона теряет территорию до следующей недели</p>
+      </div>
+      <div class="war-stats">
+        <div class="war-stat"><b data-i18n="war.stat1Value">200</b><span data-i18n="war.stat1Label">игроков в одном бою</span></div>
+        <div class="war-stat"><b data-i18n="war.stat2Value">9</b><span data-i18n="war.stat2Label">точек захвата</span></div>
+        <div class="war-stat"><b data-i18n="war.stat3Value">45</b><span data-i18n="war.stat3Label">минут на раунд</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="modes" id="modes">
+  <div class="modes-head shell">
+    <p class="eyebrow reveal" data-i18n="modes.eyebrow">Режимы</p>
+    <h2 class="modes-title split" data-i18n="modes.title">Не только война</h2>
+    <p class="modes-hint reveal"><span data-i18n="modes.hint">тяни в сторону</span></p>
+  </div>
+  <div class="modes-viewport" id="modesViewport">
+    <div class="modes-track" id="modesTrack">
+      <article class="mode-card"><span class="mode-num">01</span><h3 data-i18n="modes.m1">Захват территорий</h3><p data-i18n="modes.m1Desc">Пятничная война картелей и государства за девять точек на карте</p></article>
+      <article class="mode-card"><span class="mode-num">02</span><h3 data-i18n="modes.m2">Ограбления</h3><p data-i18n="modes.m2Desc">Банк, ювелирка и инкассация. Нужна команда и план отхода</p></article>
+      <article class="mode-card"><span class="mode-num">03</span><h3 data-i18n="modes.m3">Уличные гонки</h3><p data-i18n="modes.m3Desc">Ночные заезды на кастомном транспорте, ставки и слив полиции</p></article>
+      <article class="mode-card"><span class="mode-num">04</span><h3 data-i18n="modes.m4">Суд присяжных</h3><p data-i18n="modes.m4Desc">Реальный процесс с адвокатом, прокурором и приговором</p></article>
+      <article class="mode-card"><span class="mode-num">05</span><h3 data-i18n="modes.m5">Выборы мэра</h3><p data-i18n="modes.m5Desc">Кампания, дебаты и голосование. Победитель правит налогами</p></article>
+      <article class="mode-card"><span class="mode-num">06</span><h3 data-i18n="modes.m6">Рейды на базы</h3><p data-i18n="modes.m6Desc">Штурм укреплённых точек с подрывом стен и заложниками</p></article>
+      <article class="mode-card"><span class="mode-num">07</span><h3 data-i18n="modes.m7">Чёрный рынок</h3><p data-i18n="modes.m7Desc">Контрабанда, перекупы и облавы полиции на сделках</p></article>
+      <article class="mode-card"><span class="mode-num">08</span><h3 data-i18n="modes.m8">Городские ивенты</h3><p data-i18n="modes.m8Desc">Каждые выходные новый сценарий от администрации</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="shell">
+    <p class="eyebrow reveal" data-i18n="features.eyebrow">Почему остаются</p>
+    <div class="feature-row">
+      <div class="feature-media reveal"><img src="assets/img/feat-events.webp" srcset="assets/img/feat-events-sm.webp 1100w, assets/img/feat-events.webp 2200w" sizes="(max-width: 900px) 92vw, 52vw" alt="" loading="lazy" decoding="async"></div>
+      <div class="feature-text"><h3 class="split" data-i18n="features.f1Title">Ивенты каждые выходные</h3><p class="reveal" data-i18n="features.f1Body">Администрация пишет сценарий, а не просто раздаёт кейсы.</p></div>
+    </div>
+    <div class="feature-row reverse">
+      <div class="feature-media reveal"><img src="assets/img/feat-systems.webp" srcset="assets/img/feat-systems-sm.webp 1100w, assets/img/feat-systems.webp 2200w" sizes="(max-width: 900px) 92vw, 52vw" alt="" loading="lazy" decoding="async"></div>
+      <div class="feature-text"><h3 class="split" data-i18n="features.f2Title">Системы, которых нет у других</h3><p class="reveal" data-i18n="features.f2Body">Кастомный транспорт с тюнингом и износом.</p></div>
+    </div>
+    <div class="feature-row">
+      <div class="feature-media reveal"><img src="assets/img/feat-voice.webp" srcset="assets/img/feat-voice-sm.webp 1100w, assets/img/feat-voice.webp 2200w" sizes="(max-width: 900px) 92vw, 52vw" alt="" loading="lazy" decoding="async"></div>
+      <div class="feature-text"><h3 class="split" data-i18n="features.f3Title">Голосовой чат на расстоянии</h3><p class="reveal" data-i18n="features.f3Body">Слышишь того, кто рядом, и не слышишь того, кто за углом.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="shell">
+    <p class="eyebrow reveal" data-i18n="stats.eyebrow">Цифры</p>
+    <div class="stat-grid">
+      <div class="stat"><b class="js-count" data-count="48000" data-suffix="+">0</b><span data-i18n="stats.registered">Зарегистрировано игроков</span></div>
+      <div class="stat"><b class="js-count js-online-count" data-count="0">0</b><span data-i18n="stats.online">Сейчас онлайн</span></div>
+      <div class="stat"><b class="js-count" data-count="4">0</b><span data-i18n="stats.years">Года стабильной работы</span></div>
+      <div class="stat"><b class="js-count" data-count="17">0</b><span data-i18n="stats.modes">Игровых режимов</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="start" id="start">
+  <div class="shell start-shell">
+    <div class="start-steps">
+      <p class="eyebrow reveal" data-i18n="start.eyebrow">Старт</p>
+      <h2 class="section-title split" data-i18n="start.title">Три шага и ты в городе</h2>
+      <article class="step" data-step="1"><span class="step-num">01</span><h3 data-i18n="start.s1Title">Открой Minecraft</h3><p data-i18n="start.s1Body">Java Edition, версии с 1.16.5 по 1.21.x.</p></article>
+      <article class="step" data-step="2"><span class="step-num">02</span><h3 data-i18n="start.s2Title">Вставь наш IP</h3><p data-i18n="start.s2Body">Multiplayer, Add Server, поле Server Address.</p></article>
+      <article class="step" data-step="3"><span class="step-num">03</span><h3 data-i18n="start.s3Title">Пройди вводный отыгрыш</h3><p data-i18n="start.s3Body">Пять минут на выбор профессии и документы.</p></article>
+    </div>
+    <div class="start-panel">
+      <div class="start-card">
+        <div class="start-window">
+          <span class="start-dots"><i></i><i></i><i></i></span>
+          <span class="start-window-title">Minecraft</span>
+        </div>
+        <div class="start-field">
+          <label data-i18n="start.copy">Нажми, чтобы скопировать</label>
+          <button class="ip-plate js-copy-ip" type="button">
+            <b class="js-ip">play.anteiku.fun</b>
+            <svg class="ic-copy"><use href="#i-copy"/></svg>
+            <svg class="ic-done"><use href="#i-check"/></svg>
+          </button>
+        </div>
+        <div class="start-meta">
+          <span data-i18n="start.version">Версия</span>
+          <b class="js-version">1.16.5 - 1.21.x</b>
+        </div>
+        <div class="start-progress"><i id="startProgress"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="shell">
+    <p class="eyebrow reveal" data-i18n="faq.eyebrow">Вопросы</p>
+    <h2 class="section-title split" data-i18n="faq.title">Что спрашивают чаще всего</h2>
+    <div class="faq-list" id="faqList">
+      <details class="faq-item"><summary><span data-i18n="faq.q1">Что вообще такое ролевая игра в Minecraft?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a1"></p></div></details>
+      <details class="faq-item"><summary><span data-i18n="faq.q2">Правда нужен только обычный Minecraft?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a2"></p></div></details>
+      <details class="faq-item"><summary><span data-i18n="faq.q3">Нужна лицензия Minecraft?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a3"></p></div></details>
+      <details class="faq-item"><summary><span data-i18n="faq.q4">Я новичок и никогда не отыгрывал. Пустят?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a4"></p></div></details>
+      <details class="faq-item"><summary><span data-i18n="faq.q5">Донат решает исход войны?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a5"></p></div></details>
+      <details class="faq-item"><summary><span data-i18n="faq.q6">Что будет, если нарушить правила?</span><svg><use href="#i-plus"/></svg></summary><div class="faq-answer"><p data-i18n="faq.a6"></p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="finale" id="finale">
+  <img class="finale-bg" src="assets/img/cta-lineup.webp" srcset="assets/img/cta-lineup-sm.webp 1100w, assets/img/cta-lineup.webp 2200w" sizes="100vw" alt="" loading="lazy" decoding="async">
+  <div class="finale-grade"></div>
+  <div class="shell finale-grid">
+    <div class="finale-col reveal">
+      <h2 class="finale-title" data-i18n="cta.play">ИГРАЙ</h2>
+      <p data-i18n="cta.playBody">Скопируй адрес и заходи прямо сейчас</p>
+      <button class="btn btn-primary btn-lg js-copy-ip" type="button">
+        <svg class="ic-copy"><use href="#i-copy"/></svg>
+        <svg class="ic-done"><use href="#i-check"/></svg>
+        <span class="js-ip">play.anteiku.fun</span>
+      </button>
+    </div>
+    <div class="finale-col reveal">
+      <h2 class="finale-title" data-i18n="cta.join">ВСТУПАЙ</h2>
+      <p data-i18n="cta.joinBody">Новости, ивенты и поиск команды</p>
+      <div class="finale-social">
+        <a class="social social-lg" data-link="discord" href="#" aria-label="Discord"><svg><use href="#i-discord"/></svg></a>
+        <a class="social social-lg" data-link="telegram" href="#" aria-label="Telegram"><svg><use href="#i-telegram"/></svg></a>
+        <a class="social social-lg" data-link="youtube" href="#" aria-label="YouTube"><svg><use href="#i-youtube"/></svg></a>
+        <a class="social social-lg" data-link="tiktok" href="#" aria-label="TikTok"><svg><use href="#i-tiktok"/></svg></a>
+        <a class="social social-lg" data-link="vk" href="#" aria-label="VK"><svg><use href="#i-vk"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer-grid">
+    <div class="footer-brand">
+      <span class="brand-name">ANTEIKU<em>RP</em></span>
+      <p data-i18n="footer.rights">Проект не связан с Mojang AB и Microsoft</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.nav">Навигация</h4>
+      <a href="#roles" data-i18n="roles.eyebrow">Профессии</a>
+      <a href="#modes" data-i18n="modes.eyebrow">Режимы</a>
+      <a href="#start" data-i18n="start.eyebrow">Старт</a>
+      <a href="#faq" data-i18n="faq.eyebrow">Вопросы</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.community">Сообщество</h4>
+      <a data-link="discord" href="#">Discord</a>
+      <a data-link="telegram" href="#">Telegram</a>
+      <a data-link="youtube" href="#">YouTube</a>
+      <a data-link="vk" href="#">VK</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.legal">Документы</h4>
+      <a data-link="rules" href="#" data-i18n="nav.rules">Правила</a>
+      <a href="#" data-i18n="footer.terms">Пользовательское соглашение</a>
+      <a href="#" data-i18n="footer.privacy">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><svg><use href="#i-check"/></svg><span data-i18n="nav.copied">IP скопирован</span></div>
+
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
