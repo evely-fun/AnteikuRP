@@ -231,12 +231,57 @@
     }
 
     /* ----------------------------------------------------------------------
+       Pointer parallax, the depth cue behind the cast
+       ---------------------------------------------------------------------- */
+
+    function wireParallax() {
+        var fine = window.matchMedia("(pointer: fine)").matches;
+        var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!fine || calm) {
+            return;
+        }
+
+        var stage = document.querySelector(".hero-screen");
+        var next = null;
+
+        // The depth layer carries a CSS transition, so smoothing it again in JS
+        // would only make it crawl. Write the raw pointer offset once per frame
+        // and let the transition do the easing.
+        var write = function () {
+            var v = next;
+            next = null;
+            stage.style.setProperty("--px", v.x.toFixed(1) + "px");
+            stage.style.setProperty("--py", v.y.toFixed(1) + "px");
+        };
+
+        var queue = function (x, y) {
+            var pending = next !== null;
+            next = { x: x, y: y };
+            if (!pending) {
+                requestAnimationFrame(write);
+            }
+        };
+
+        window.addEventListener("pointermove", function (event) {
+            if (event.pointerType && event.pointerType !== "mouse") {
+                return;
+            }
+            queue((event.clientX / window.innerWidth - 0.5) * 34,
+                  (event.clientY / window.innerHeight - 0.5) * 18);
+        }, { passive: true });
+
+        document.addEventListener("pointerleave", function () {
+            queue(0, 0);
+        }, { passive: true });
+    }
+
+    /* ----------------------------------------------------------------------
        Preloader, gated on the artwork the first frame actually needs
        ---------------------------------------------------------------------- */
 
     function boot() {
         var fill = document.querySelector(".preloader-bar-fill");
-        var critical = ["img/pers/1.webp", "img/pers/2.webp", "img/pers/3.webp", "img/logo.svg"];
+        var critical = ["img/pers/1.webp", "img/pers/2.webp", "img/pers/3.webp"];
         var loaded = 0;
         var finished = false;
 
@@ -284,6 +329,7 @@
         applyLang(storedLang());
         loadOnline();
         wireChrome();
+        wireParallax();
         boot();
     }
 
