@@ -1,78 +1,58 @@
-# ANTEIKU RP
+# ANTEIKU RolePlay
 
-Scroll-driven landing page for a Minecraft roleplay server. Static site, no
-build step, no framework, no external requests at runtime.
+Hero screen only. Static files in `site/`, no build step, no runtime requests
+to any third party.
 
-## Editing content
+## Layout reference
 
-Two files cover almost everything.
+The composition follows the agreed reference: a fixed full viewport hero, a
+centred title stack, two foreground characters flanking it and one dimmed
+character behind, blurred square clusters on both edges, a promo strip pinned
+to the bottom. The geometry was matched against the reference at every
+breakpoint; the CSS is written from scratch rather than copied.
 
-- **`site/js/config.js`** holds the server address, accepted Minecraft
-  versions, promo code, social links and the headline numbers. Nothing in this
-  list is hardcoded anywhere else, so changing the IP here changes it in the
-  header, the hero, the setup panel and the final call to action at once.
-- **`site/js/i18n.js`** holds every string in Russian and English. The markup
-  carries `data-i18n` keys only. Add a key to both language objects and it is
-  picked up automatically; `data-i18n-html` is available where a string needs
-  a line break.
+Two deliberate departures:
 
-### Placeholders to replace
+- **No launcher button.** The reference sells a download. This server has no
+  launcher, so the same slot carries **Скопировать IP**, which copies
+  `config.serverIp` to the clipboard and confirms with a toast.
+- **Logo lockup.** The mark is a geometric SVG and the wordmark is live text
+  in Montserrat, rather than one traced image. It stays sharp at any size and
+  the wordmark can be restyled without re-exporting artwork.
 
-The following values are stand-ins and must be swapped for the real ones
-before launch:
+## Editing
 
-| Value | Where | Current placeholder |
+- `site/js/config.js` - server address, promo code, social links, player
+  count. Nothing server specific is hardcoded anywhere else.
+- `site/js/i18n.js` - every string, Russian and English, matching keys. The
+  markup carries `data-i18n` keys only.
+
+### Placeholders to replace before launch
+
+| Value | Key | Current |
 |---|---|---|
-| Server address | `config.serverIp` | `play.anteiku.fun` |
-| Discord, Telegram, YouTube, TikTok, VK | `config.links` | `*/anteiku*` |
-| Support bot and donate page | `config.links` | `t.me/anteiku_support_bot`, `/donate` |
-| Registered players, years, mode count | `config.stats` and `data-count` in `index.html` | 48000 / 4 / 17 |
-| Promo code | `config.promoCode` | `ANTEIKU` |
+| Server address | `serverIp` | `play.anteiku.fun` |
+| Promo code | `promoCode` | `ANTEIKU` |
+| Discord, Telegram, YouTube, TikTok, VK | `links` | `*/anteiku*` |
+| Support bot, rules, donate | `links` | placeholder paths |
+| Player count | `fallbackOnline` | 1240 |
 
-### Live player count
+Set `statusEndpoint` to any URL returning `{ "players": { "online": N } }`,
+the shape `api.mcsrvstat.us/2/<host>` already returns, and the count goes
+live. A failed request keeps the fallback rather than showing an error.
 
-Set `config.statusEndpoint` to any URL returning
-`{ "players": { "online": 123 } }`, which is the shape the public
-`api.mcsrvstat.us/2/<host>` endpoint already returns. Leave it `null` and the
-site shows `config.fallbackOnline` instead. A failed request silently keeps
-the fallback rather than showing an error.
+### Characters
 
-## How the motion works
-
-Tier 2 of the standard stack: GSAP with ScrollTrigger for the scenes, Lenis
-for smooth scrolling, all driven by a single `gsap.ticker`. There is no second
-requestAnimationFrame loop anywhere, including the two ember canvases.
-
-The signature interaction is the **war dive** in `#war`. A wide battlefield
-plate scales toward the distant explosion while a close up plate crossfades in
-underneath it and continues the push. A single image cannot survive that much
-scale, so the two plates were generated as a matched pair and the handoff
-happens at roughly 40% of the scene.
-
-The zoom target is computed in element pixels rather than set as a percentage,
-because `object-fit: cover` crops the plate differently at every viewport
-aspect and a fixed percentage origin drifts off the explosion on ultrawide and
-on portrait. See `buildWarScene` in `site/js/main.js`.
-
-`#modes` is the one Kinetic Brutalist zone: pinned horizontal scroll with a
-clamped velocity skew. Below 900px it drops the pin and becomes a plain
-swipeable rail.
-
-### Reduced motion
-
-`prefers-reduced-motion` is a complete branch, not a softened one. Pinning is
-off, the war dive becomes a static plate with all three lines shown at once,
-the horizontal rail becomes a normal scroll area, counters jump to their final
-values and the grain stops animating.
+`site/img/pers/1-3.webp` are placeholders: transparent-background Minecraft
+renders in the three hero slots (front left, front right, dimmed rear). Drop
+in your own at the same paths and the layout needs no changes.
 
 ## Verified
 
-Chromium at 1440x900, 390x844, and with reduced motion forced.
-
-- Zero console errors, zero warnings, zero failed requests in all three passes
-- Russian and English both render, including Cyrillic in both typefaces
-- Resize from 1440 to 1024 and back mid-pin leaves the pinned scene intact
-- Full page scroll: median frame 16.7ms, p95 33.4ms, one frame over 50ms
+Chromium at 1920, 1440, 1280, 1024, 834, 390 and 360, plus English and
+forced reduced motion. Zero console errors, zero failed requests, no header
+overflow at any width, no horizontal page scroll, Montserrat confirmed
+loaded, and the copy button verified to put the address on the clipboard.
 
 ## Local preview
 
@@ -80,35 +60,9 @@ Chromium at 1440x900, 390x844, and with reduced motion forced.
 cd site && python3 -m http.server 8080
 ```
 
-## Deploying
+## Notes
 
-The site is plain static files in `site/`. Nothing is compiled.
-
-**Render** (currently live): a static site pointed at this repo with publish
-path `site` and no build command. Pushing to the tracked branch redeploys.
-
-**Cloudflare Pages**: `wrangler.toml` is ready. Either connect the repo in the
-Cloudflare dashboard with build command empty and output directory `site`, or
-add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to GitHub secrets and
-let `.github/workflows/deploy-cloudflare.yml` do it on push to `main`.
-
-`site/_headers` sets long lived caching for `assets/` and the usual security
-headers. Cloudflare Pages reads that file directly. **Render does not** - it
-uses its own blueprint format, so the same rules are mirrored in
-`render.yaml`, and they only take effect once that blueprint is synced from
-the Render dashboard. Until then Render serves its default
-`max-age=0, s-maxage=300`, which is correct but not optimal for the immutable
-image and font files.
-
-## Third party code
-
-GSAP 3.13.0, ScrollTrigger 3.13.0 and Lenis 1.3.1 are vendored into
-`site/js/vendor/`. Oswald and Inter are vendored into `site/assets/fonts/`,
-latin and cyrillic subsets only. The page makes no third party requests at
-runtime, which removes the CDN as a point of failure and keeps visitor data
-off other people's servers.
-
-## Assets
-
-All imagery is generated rather than stock. Prompts, verdicts and credit spend
-are recorded in `assets/manifest.md`.
+Montserrat is self hosted in `site/fonts/`, latin and cyrillic subsets only,
+so the page makes no call to Google Fonts. `--vh` is recalculated on resize
+and orientation change so the hero stays exactly one screen tall while mobile
+browser chrome collapses.
